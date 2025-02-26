@@ -57,8 +57,9 @@ First download these ruleset from this link: [PO&A Default](https://github.com/O
 ### c. Remove Your Direct Access
 
 > [!CAUTION]
-> This step must be performed after importing the ruleset. Otherwise, you will not be able to add the rulesets. If you have not done this yet please do so!
 > Verify that all settings and permissions are correctly applied.
+>This step must be performed after importing the ruleset. Otherwise, you will not be able to add the rulesets. 
+>If you have not done this yet please do so! 
 
 1. Return to **Access** > **Collaborators and teams**.
 2. Remove yourself from the direct access list.
