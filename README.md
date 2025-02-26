@@ -39,7 +39,7 @@ po-a
 
 ### b. Import Rulesets
 First download this ruleset 
-   - [Download asset](https://github.com/assest/PO&A_Default.json "download")
+   - [Download asset](https://github.com/Orrin-GSA/Example/blob/main/assest/PO%26A_Default.json "download")
 
 - <a href="C:\Users\liloh\Documents\Work\Instructions\assest\PO&A Default.json" download>Download the asset</a>
 
