@@ -29,24 +29,21 @@ Follow the steps below **In Order** to create and configure the repository using
    - **PO&A Team** – *Read*
    - **PO&A Dev Team** – *Write*
    - **PO&A Admin Team** – *Admin*
+
+> [!TIP]
+> *You can copy/paste `po-a` below to quickly locate the teams.*
+
 ```c++
 po-a
 ```
-> [!TIP]
-> *You can copy/paste `po-a` to quickly locate the teams.*
+
 
 <img src="img/Instruction_2.gif" width="800" height="auto" alt="Instruction_2">
 
 ### b. Import Rulesets
-First download this ruleset 
 
-[Download PO&A Default](https://raw.githubusercontent.com/Orrin-GSA/Example/main/assest/PO%26A_Default.json "download")
-
-
-
-<a href="https://raw.githubusercontent.com/Orrin-GSA/Example/refs/heads/main/assest/PO%26A_Default.json?token=GHSAT0AAAAAAC5KPDBFPCXVU7LZGB7NIBEOZ57JMQA" download>
-  Download PO&A Default JSON
-</a>
+First download these ruleset from this link: [PO&A Default](https://github.com/Orrin-GSA/Example/blob/main/assest/PO%26A_Default.json "download")
+    - On the right hand corner, go to **&darr;** icon to download the file. 
 
 
 1. Go to **Code and automation** > **Rules** > **Rulesets**.
@@ -61,6 +58,7 @@ First download this ruleset
 
 > [!CAUTION]
 > This step must be performed after importing the ruleset. Otherwise, you will not be able to add the rulesets. If you have not done this yet please do so!
+> Verify that all settings and permissions are correctly applied.
 
 1. Return to **Access** > **Collaborators and teams**.
 2. Remove yourself from the direct access list.
@@ -71,9 +69,5 @@ First download this ruleset
 
 ----
 
-## Final Notes
-
-- Verify that all settings and permissions are correctly applied.
-- If any issues arise, double-check the order of the steps, especially the removal of your own access after setting up the rulesets.
 
 
