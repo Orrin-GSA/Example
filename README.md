@@ -39,9 +39,14 @@ po-a
 
 ### b. Import Rulesets
 First download this ruleset 
-   - [Download asset](https://github.com/Orrin-GSA/Example/blob/main/assest/PO%26A_Default.json "download")
 
-- <a href="C:\Users\liloh\Documents\Work\Instructions\assest\PO&A Default.json" download>Download the asset</a>
+[Download PO&A Default](https://raw.githubusercontent.com/Orrin-GSA/Example/main/assest/PO%26A_Default.json "download")
+
+
+<a href="https://raw.githubusercontent.com/Orrin-GSA/Example/main/assest/PO%26A_Default.json" download>
+  Download PO&A Default JSON
+</a>
+
 
 1. Go to **Code and automation** > **Rules** > **Rulesets**.
 2. Click on **New ruleset**.
