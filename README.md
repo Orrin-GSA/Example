@@ -40,7 +40,8 @@ po-a
 ### b. Import Rulesets
 First download this ruleset 
 
-[Download PO&A Default](https://raw.githubusercontent.com/Orrin-GSA/Example/refs/heads/main/assest/PO%26A_Default.json?token=GHSAT0AAAAAAC5KPDBFPCXVU7LZGB7NIBEOZ57JMQA "download")
+[Download PO&A Default](https://raw.githubusercontent.com/Orrin-GSA/Example/main/assest/PO%26A_Default.json "download")
+
 
 
 <a href="https://raw.githubusercontent.com/Orrin-GSA/Example/refs/heads/main/assest/PO%26A_Default.json?token=GHSAT0AAAAAAC5KPDBFPCXVU7LZGB7NIBEOZ57JMQA" download>
