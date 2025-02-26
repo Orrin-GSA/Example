@@ -43,7 +43,7 @@ po-a
 ### b. Import Rulesets
 
 First download these ruleset from this link: [PO&A Default](https://github.com/Orrin-GSA/Example/blob/main/assest/PO%26A_Default.json "download")
-    - On the right hand corner, go to **&darr;** icon to download the file. 
+- On the right hand corner, go to **&darr;** icon to download the file. 
 
 
 1. Go to **Code and automation** > **Rules** > **Rulesets**.
