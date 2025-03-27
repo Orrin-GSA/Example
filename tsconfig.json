@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "target": "ES2022",
+        "strict": false,
+        "noUncheckedIndexedAccess": false,
+        "noImplicitAny": false,
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "Node16",
+        "module": "Node16"
+    }
+}
