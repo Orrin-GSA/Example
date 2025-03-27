@@ -2,7 +2,7 @@
 // https://parceljs.org/features/node-emulation/#environment-variables
 
 
-// @ts-ignore the command 'parcel build index.html' will set the NODE_ENV to 'production', as opposed to 'parcel index.html' which will set it to 'development'. 
+// the command 'parcel build index.html' will set the NODE_ENV to 'production', as opposed to 'parcel index.html' which will set it to 'development'. 
 export const isDevelopment = process.env.NODE_ENV === 'development' ? true : false;
 
 //  This should help prevent publishes to the container from having isLocal enabled accidentally.
@@ -12,8 +12,8 @@ export const inContainer = typeof google !== 'undefined';
 
 // Avoid using isLocal where possible.
 export const isLocal = !inContainer;
-//@ts-ignore Hack
-export const useLocalData = isDevelopment && (isLocal || process.env.USE_LOCAL_DATA === 'true');
+//@ts-expect-error Hack
+export const useLocalData = isDevelopment && (typeof google === 'undefined' || process.env.USE_LOCAL_DATA === 'true');
 
 const AppConfig = {
     isDevelopment,

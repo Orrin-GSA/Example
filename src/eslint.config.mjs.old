@@ -1,0 +1,19 @@
+// eslint.config.js
+import stylistic from '@stylistic/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+
+export default [
+  {
+    languageOptions: {
+        parser: tsParser,
+    },
+    files: ["files/**/*.{js,mjs,cjs,ts}"],
+    plugins: {
+      '@stylistic': stylistic
+    },
+    rules: {
+      'indent': ['error', 2, { 'SwitchCase': 1 }],
+      '@stylistic/indent': ['error', 2, { 'SwitchCase': 1 }],
+    }
+  }
+]

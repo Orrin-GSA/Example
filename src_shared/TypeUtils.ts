@@ -3,7 +3,7 @@ import AppConfig from "./AppConfig";
 /** Collection of type checking utilities. */
 export const is = {
     /** Checks if this is a *pure* object, it is not a function, array, or other object derived typed. */
-    object(arg): arg is Record<any, any> {
+    object(arg) {
         return arg != null && Object.prototype.toString.call(arg) === '[object Object]';
     },
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
@@ -29,7 +29,7 @@ export const is = {
         return arg != null && Array.isArray(arg);
     },
     error(arg): arg is Error {
-        return arg != null && Object.prototype.toString.call(arg) === '[object Error]';
+        return arg != null && Object.prototype.toString.call(arg) === '[object Error]';        
     },
     /**
      * Checks if value is or can be converted to a Date and that the Date is valid (non-NaN).
@@ -43,11 +43,11 @@ export const is = {
         return is.date(date) && !isNaN(date.getTime());
     },
     validNumber(arg: string | number | null): boolean {
-        if (arg == null) {
+        if(arg == null) {
             return false;
         }
 
-        if (is.string(arg)) {
+        if(is.string(arg)) {
             arg = to.float(arg);
         }
 
@@ -132,14 +132,16 @@ export const to = {
         return date;
     },
 
-    /** Maps an array to an object because I hate using `arr.reduce(...)` to handle this. */
-    object<T>(arr: Array<T>, keyFunc: (item: T) => string | number): Record<string | number, T> {
+    /** Maps an array to an object using a key because I hate using `arr.reduce(...)` to handle this. */
+    mapping<T>(arr: Array<T>, keyFunc: (item: T) => string | number | undefined): Record<string | number, T> {
         const result: Record<string | number, T> = {};
-
-        for (let i = 0; i < arr.length; i++) {
+        
+        for(let i = 0; i < arr.length; i++) {
             const item = arr[i];
             const key = keyFunc(item);
-            result[key] = item;
+            if(key != null) {
+                result[key] = item;
+            }
         }
 
         return result;
@@ -151,7 +153,7 @@ export namespace assert {
     /**
     * Throws an Error if arg is not a object.
     */
-    export function object<T = any>(arg: T | null | undefined, errStr: string = undefined): asserts arg is T {
+    export function object<T = any>(arg: T | null | undefined, errStr: string = undefined): asserts arg is T  {
         if (!AppConfig.isDevelopment) {
             return;
         }
@@ -208,7 +210,7 @@ export namespace assert {
     /**
     * Throws an Error if arg is not a date.
     */
-    export function date(arg: any, errStr: string = undefined): asserts arg is Date {
+    export function  date(arg: any, errStr: string = undefined): asserts arg is Date {
         if (!AppConfig.isDevelopment) {
             return;
         }
@@ -218,7 +220,7 @@ export namespace assert {
     /**
     * Throws an Error if arg is not an array. 
     */
-    export function array<T = any>(arg: any | null | undefined, errStr: string = undefined): asserts arg is T[] {
+    export function array<T=any>(arg: any | null | undefined, errStr: string = undefined): asserts arg is T[] {
         if (!AppConfig.isDevelopment) {
             return;
         }
@@ -295,7 +297,7 @@ export namespace assertAlways {
     /**
     * Throws an Error if arg is not an array.
     */
-    export function array<T = any>(arg: any | null | undefined, errStr: string = `Expected Array but received ${arg != null ? Object.prototype.toString.call(arg) : arg}.`): asserts arg is T[] {
+    export function array<T=any>(arg: any | null | undefined, errStr: string = `Expected Array but received ${arg != null ? Object.prototype.toString.call(arg) : arg}.`): asserts arg is T[] {
         if (!is.array(arg)) {
             throw new Error(errStr ?? 'arg was not an array.', arg);
         }
@@ -318,16 +320,38 @@ export namespace assertAlways {
 };
 
 const defaultFilterCallback = (item) => item != null;
+const defaultMaxCallback = (item) => (item ?? Number.MIN_SAFE_INTEGER) as number;
 
 export namespace arrayUtils {
+
+    /** Removes element from the array. NOTE: This is an *in-place* removal. */
+    export function remove<T>(array: T[], itemToRemove: T) {
+        const idx = array.indexOf(itemToRemove);
+        if(idx == -1) {
+            return false;
+        }
+        array.splice(idx, 1);
+        return true;
+    }
+
+    /** Removes the first element to match the condition from the array. NOTE: This is an *in-place* removal. */
+    export function removeFirst<T>(array: T[], itemToRemove: (item: T) => boolean) {
+        const idx = array.findIndex(itemToRemove);
+        if(idx == -1) {
+            return false;
+        }
+        array.splice(idx, 1);
+        return true;
+    }
+
     /** Combined array map then filter function. If filterCallback is not provided, it will default to "mapValue => mapValue != null" */
-    export function mapFilter<T = any, U = any>(array: T[], mapCallback: (item: T, index?: number, arr?: T[]) => U, filterCallback?: (mapValue: U) => boolean) {
+    export function mapFilter<T=any, U=any>(array: T[], mapCallback: (item: T, index?: number, arr?: T[]) => U, filterCallback?: (mapValue: U) => boolean) {
         const result: U[] = [];
         filterCallback ??= defaultFilterCallback;
 
-        for (let i = 0; i < array.length; i++) {
+        for(let i = 0; i < array.length; i++) {
             const value = mapCallback(array[i], i, array);
-            if (filterCallback(value)) {
+            if(filterCallback(value)) {
                 result.push(value);
             }
         }
@@ -336,19 +360,47 @@ export namespace arrayUtils {
     }
 
     /** Combined array filter then map function. If filterCallback is not provided, it will default to "mapValue => mapValue != null" */
-    export function filterMap<T = any, U = any>(array: T[], mapCallback: (item: T, index?: number, arr?: T[]) => U, filterCallback?: (mapValue: T) => boolean) {
+    export function filterMap<T=any, U=any>(array: T[], mapCallback: (item: T, index?: number, arr?: T[]) => U, filterCallback?: (mapValue: T) => boolean) {
         const result: U[] = [];
         filterCallback ??= defaultFilterCallback;
 
-        for (let i = 0; i < array.length; i++) {
+        for(let i = 0; i < array.length; i++) {
             const element = array[i];
-            if (filterCallback(element)) {
+            if(filterCallback(element)) {
                 const value = mapCallback(element, i, array);
                 result.push(value);
-            }
+            }            
         }
 
         return result;
+    }
+
+    export function max<T=any>(array: T[], mapping?: (item: T, index?: number, arr?: T[]) => number) {
+        let max = Number.MIN_SAFE_INTEGER;
+        mapping ??= defaultMaxCallback;
+        for(let i = 0; i < array.length; i++) {
+            const nextVal = mapping(array[i]);
+            if(nextVal > max) {
+                max = nextVal;
+            }
+        }
+        return max;
+    }
+
+    export function minMax<T=any>(array: T[], mapping?: (item: T, index?: number, arr?: T[]) => number) {
+        let max = Number.MIN_SAFE_INTEGER;
+        let min = Number.MAX_SAFE_INTEGER;
+        mapping ??= defaultMaxCallback;
+        for(let i = 0; i < array.length; i++) {
+            const nextVal = mapping(array[i]);
+            if(nextVal > max) {
+                max = nextVal;
+            }
+            if(nextVal < min) {
+                min = nextVal;
+            }
+        }
+        return [min, max];
     }
 
     /**
@@ -357,14 +409,89 @@ export namespace arrayUtils {
     export function range(size: number, startAt = 0) {
         return [...Array(size).keys()].map(i => i + startAt);
     }
-
+    
     /**
      * returns an array of characters starting from one letter of the alphabet and going to the other, characterRange('A', 'D') => ['A', 'B', 'C', 'D']
      * @param startChar starting character, only uses first character of passed string. Ensure to use the same capitalization for both arguments.
-     * @param endChar end character, only uses first character of passed string. Ensure to use the same capitalization for both arguments.
+     * @param endChar eind character, only uses first character of passed string. Ensure to use the same capitalization for both arguments.
      */
     export function characterRange(startChar: string, endChar: string) {
         return String.fromCharCode(...range(endChar.charCodeAt(0) - startChar.charCodeAt(0), startChar.charCodeAt(0)));
+    }
+
+    // https://stackoverflow.com/a/12646864/6758317
+    export function shuffle<T=unknown>(source: T[]): T[] {
+        const copy = source.concat();
+        for (let i = copy.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [copy[i], copy[j]] = [copy[j], copy[i]];
+        }
+        return copy;
+    }
+}
+
+export namespace objectUtils { 
+    /** acts like a forEach loop, but using the properties on the object. */
+    export function forEach<T extends Record<any, any>, TK extends Extract<keyof T, string> = Extract<keyof T, string>>(obj: T, fcn: (prop: TK, value?: T[TK]) => void) {        
+        for (const prop in obj) {
+            if (Object.hasOwn(obj, prop)) {
+                fcn(prop as TK, obj[prop] as T[TK]);
+            }
+        }
+    }
+
+    export function map<T extends Record<any, any>, TK extends Extract<keyof T, string> = Extract<keyof T, string>>(obj: T, fcn: (prop: TK, value?: T[TK]) => any) {
+        const results = [];
+        for (const prop in obj) {
+            if (Object.hasOwn(obj, prop)) {
+                results.push(fcn(prop as TK, obj[prop] as T[TK]));
+            }
+        }
+        return results;
+    }
+
+    export function filter<T extends Record<any, any>, TK extends Extract<keyof T, string> = Extract<keyof T, string>>(obj: T, fcn: (prop: TK, value?: T[TK]) => boolean) {
+        const results = [];
+        for (const prop in obj) {
+            if (Object.hasOwn(obj, prop) && fcn(prop as TK, obj[prop] as T[TK])) {
+                results.push(prop);
+            }
+        }
+        return results;
+    }
+
+    /** Combined array map then filter function. If filterCallback is not provided, it will default to "mapValue => mapValue != null" */
+    export function mapFilter<T extends Record<any, any>, U=any>(obj: T, mapCallback: (item: keyof T) => U, filterCallback?: (mapValue: U) => boolean) {
+        const results: U[] = [];
+        filterCallback ??= defaultFilterCallback;
+
+        for (const prop in obj) {            
+            if (Object.hasOwn(obj, prop)) {
+                const value = mapCallback(prop);
+                if(filterCallback(value)) {
+                    results.push(value);
+                }
+            }
+        }
+
+        return results;
+    }
+
+    /** Combined array filter then map function. If filterCallback is not provided, it will default to "mapValue => mapValue != null" */
+    export function filterMap<T extends Record<any, any>, U=any>(obj: T, mapCallback: (item: keyof T) => U, filterCallback?: (mapValue: keyof T) => boolean) {
+        const results: U[] = [];
+        filterCallback ??= defaultFilterCallback;
+
+        for (const prop in obj) {
+            if (Object.hasOwn(obj, prop)) {
+                if (filterCallback(prop)) {
+                    const value = mapCallback(prop);
+                    results.push(value);
+                }
+            }
+        }
+
+        return results;
     }
 }
 

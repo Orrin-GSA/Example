@@ -1,0 +1,19 @@
+{
+  "name": "waldo-gas",
+  "version": "1.0.0",
+  "scripts": {
+    "build_only": "tsc && cpy \"files/*.json\" \"files/*.html\" \"files/*.claspignore\" ../dist",
+    "build": "npm run build_only && npm run pretty",
+    "pretty": "js-beautify ../dist/*.js -r"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@google/clasp": "^2.5.0",
+    "@types/google-apps-script": "^1.0.91",
+    "cpy-cli": "^5.0.0",
+    "js-beautify": "^1.15.1",
+    "typescript": "^5.5.4"
+  }
+}

@@ -12,7 +12,8 @@ fs.readFile('dist/index.js', 'utf8', function (err, data) {
     result = result.replace(/--->/g, '');
     result = result.replace(/<---/g, '');
 
-    result = '<script type="module">' + result + "</script>";
+    //result = '<script type="module">' + result + "\n <?!= sourceMap ?>\n</script>";
+    result = '<script type="module">' + result + "\n //# sourceURL=index.js\n</script>";
 
     fs.writeFile('dist/index.js', result, 'utf8', function (err) {
         if (err) return console.log(err);

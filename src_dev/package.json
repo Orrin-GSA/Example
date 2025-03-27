@@ -1,11 +1,11 @@
 {
   "name": "mock_server",
   "version": "1.0.1",
-  "description": "JHAS Mock Server",
+  "description": "Project Monitor Mock Server",
   "scripts": {
-    "start": "tsx watch mock_server.ts --preserveWatchOutput"
+    "start": "tsx watch mock_server.js \"../src_shared/**/*\" --preserveWatchOutput"
   },
-  "author": "GSA",
+  "author": "MSI",
   "license": "ISC",
   "@parcel/resolver-default": {
     "packageExports": true
@@ -19,12 +19,12 @@
     "@types/express": "^4.17.21",
     "@types/node": "^22.1.0",
     "@types/luxon": "^3.4.2",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.21.1",
+    "express": "^4.18.2",
     "luxon": "^3.5.0"
   }
 }
